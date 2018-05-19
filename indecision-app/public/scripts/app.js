@@ -3,9 +3,12 @@
 console.log('App.js is running!');
 
 //JSX -Javascript XML
+//only render the subtitle (and p tage) if subtitle exist-logical and operator
+//render new p tag- if options.length >0 "Here are your options" "no options"
 var header = {
     title: 'INDECISION APP',
-    subtitle: 'PUT YOUR LIFE IN THE HANDS OF A COMPUTER'
+    subtitle: 'PUT YOUR LIFE IN THE HANDS OF A COMPUTER',
+    options: ['One', 'Two']
 };
 var template = React.createElement(
     'div',
@@ -15,10 +18,15 @@ var template = React.createElement(
         null,
         header.title
     ),
-    React.createElement(
+    header.subtitle && React.createElement(
         'p',
         null,
         header.subtitle
+    ),
+    React.createElement(
+        'p',
+        null,
+        header.options.length > 0 ? 'Here are your options' : 'no options'
     ),
     React.createElement(
         'ol',
@@ -44,9 +52,12 @@ var user = {
 
 function getLocation(location) {
     if (location) {
-        return location;
-    } else {
-        return 'Unknown';
+        return React.createElement(
+            'p',
+            null,
+            'location ',
+            location
+        );
     }
 }
 
@@ -56,21 +67,16 @@ var templateTwo = React.createElement(
     React.createElement(
         'h1',
         null,
-        user.name
+        user.name ? user.name : 'Anonymous'
     ),
-    React.createElement(
+    user.age && user.age >= 18 && React.createElement(
         'p',
         null,
         'Age: ',
         user.age
     ),
-    React.createElement(
-        'p',
-        null,
-        'Location: ',
-        getLocation(user.location)
-    )
+    getLocation(user.location)
 );
 
 var appRoot = document.getElementById('app');
-ReactDOM.render(templateTwo, appRoot);
+ReactDOM.render(template, appRoot);
